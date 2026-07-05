@@ -1,6 +1,5 @@
-<<<<<<< HEAD
-# larafoto
-=======
+# Laravel Photo Sharing App
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -10,53 +9,121 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## About This Application
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This is a modern photo sharing social media application built with Laravel. The platform allows users to register, upload photos, comment on images, and like posts - creating an engaging community experience.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The application features:
+- User authentication and profile management
+- Photo upload and gallery browsing
+- Commenting system for user engagement
+- Like functionality to show appreciation for posts
+- Database schema designed for scalability
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Features
 
-## Learning Laravel
+### Core Functionality
+- **User Management**: Registration, login, and profile management with roles
+- **Photo Sharing**: Users can upload and browse photos
+- **Comments**: Interactive commenting on photos
+- **Likes**: Like functionality to show appreciation
+- **Responsive Design**: Mobile-friendly interface
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Technical Features
+- Laravel 13.x framework
+- MySQL database with proper relationships
+- Modern PHP practices
+- Database migrations and seeds
+- Unit testing capabilities
+- Development environment setup scripts
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   ```
 
-## Agentic Development
+2. Install dependencies:
+   ```bash
+   composer install
+   npm install
+   ```
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+3. Copy the environment file:
+   ```bash
+   cp .env.example .env
+   ```
 
-```bash
-composer require laravel/boost --dev
+4. Generate application key:
+   ```bash
+   php artisan key:generate
+   ```
 
-php artisan boost:install
-```
+5. Set up database:
+   ```bash
+   php artisan migrate --force
+   ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+6. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+## Database Schema
+
+The application uses a relational database with the following tables:
+
+### Users Table
+- `id`: Primary key
+- `role`: User role (admin, user, etc.)
+- `name`, `surname`, `nick`: User identification
+- `email`: Unique email address
+- `password`: Encrypted password
+- `image`: Profile image path
+- Timestamps for created/updated
+
+### Images Table
+- `id`: Primary key
+- `user_id`: Foreign key to users table
+- `image_path`: Path to the image file
+- `description`: Description of the image
+- Timestamps for created/updated
+
+### Comments Table
+- `id`: Primary key
+- `user_id`: Foreign key to users table
+- `image_id`: Foreign key to images table
+- `content`: Comment text
+- Timestamps for created/updated
+
+### Likes Table
+- `id`: Primary key
+- `user_id`: Foreign key to users table
+- `image_id`: Foreign key to images table
+- Timestamps for created/updated
+
+## Development
+
+This project is set up with Laravel Breeze for the frontend, providing a modern development experience. The application includes:
+
+- Modern PHP codebase following Laravel best practices
+- Responsive UI components
+- Comprehensive testing suite
+- Development scripts for easy setup and running
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Contributions are welcome! Please read our [contribution guidelines](https://laravel.com/docs/contributions) to get started.
 
 ## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Please review and abide by our [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within this application, please send an e-mail to the development team via [security@example.com](mailto:security@example.com). All security vulnerabilities will be promptly addressed.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
->>>>>>> f1f1de7 (Initial commit)
+This Laravel application is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
