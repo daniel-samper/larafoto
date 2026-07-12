@@ -27,17 +27,22 @@
                         </div>
 
                         <!-- Image -->
-                        <img src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $image->description }}" class="w-full h-auto object-cover">
+                        <a href="{{ route('images.show', ['image' => $image]) }}">
+                            <img src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $image->description }}" class="w-full h-auto object-cover cursor-pointer">
+                        </a>
 
                         <!-- Description -->
                         <div class="p-4">
                             <p class="text-gray-900 dark:text-gray-100">{{ $image->description }}</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                {{ format_time_diff($image->created_at) }}
+                            </p>
                         </div>
 
                         <!-- Comments Button -->
                         <div class="p-4 border-t border-gray-200 dark:border-gray-700 flex items-center">
                             <img src="{{ asset('img/heart-black.png') }}" alt="Heart" class="w-6 h-6 mr-2">
-                            <a href=""
+                            <a href="{{ route('images.show', ['image' => $image]) }}"
                                class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                 Comentarios
                             </a>

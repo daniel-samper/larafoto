@@ -57,4 +57,12 @@ class ImageController extends Controller
 
         return view('images.index', compact('images'));
     }
+
+    /**
+     * Display the specified image.
+     */
+    public function show(Image $image)
+    {
+        return view('images.detail', compact('image'));
+    }
 }
