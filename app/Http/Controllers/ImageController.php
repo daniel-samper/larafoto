@@ -53,7 +53,7 @@ class ImageController extends Controller
     {
         $images = Image::with('user')
             ->latest()
-            ->paginate(10);
+            ->paginate(3);
 
         return view('images.index', compact('images'));
     }
