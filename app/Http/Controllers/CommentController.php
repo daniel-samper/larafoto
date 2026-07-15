@@ -26,4 +26,19 @@ class CommentController extends Controller
         // Redirect back to the image with success message
         return redirect()->back()->with('success', 'Comment added successfully!');
     }
+
+    public function delete($id)
+    {
+        $comment = Comment::findOrFail($id);
+        $image = $comment->image;
+
+        // Check if the user is the comment owner or the image owner
+        if ($comment->user_id !== Auth::id() && $image->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized');
+        }
+
+        $comment->delete();
+
+        return back()->with('success', 'Comment deleted successfully!');
+    }
 }

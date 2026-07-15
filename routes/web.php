@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/imagen/{image}', [App\Http\Controllers\ImageController::class, 'show'])->name('images.show');
     Route::post('/image/store', [App\Http\Controllers\ImageController::class, 'store'])->name('images.store');
     Route::post('/comments/store', [\App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
+    Route::delete('/comments/{comment}', [\App\Http\Controllers\CommentController::class, 'delete'])->name('comments.delete');
 });
 
 
