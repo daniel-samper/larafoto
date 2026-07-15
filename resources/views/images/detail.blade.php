@@ -25,7 +25,9 @@
                 </div>
 
                 <!-- Image -->
-                <img src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $image->description }}" class="w-full h-auto object-contain max-h-[70vh]">
+                <a href="{{ route('images.show', $image->id) }}">
+                    <img src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $image->description }}" class="w-full h-auto object-contain max-h-[70vh] cursor-pointer hover:opacity-90 transition-opacity">
+                </a>
 
                 <!-- Description -->
                 <div class="p-4">
@@ -35,13 +37,71 @@
                     </p>
                 </div>
 
-                <!-- Comments Button -->
-                <div class="p-4 border-t border-gray-200 dark:border-gray-700 flex items-center">
-                    <img src="{{ asset('img/heart-black.png') }}" alt="Heart" class="w-6 h-6 mr-2">
-                    <a href=""
-                       class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                        Comentarios
-                    </a>
+                <!-- Comments Section -->
+                <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                    <div id="comments-toggle" class="flex items-center mb-3 cursor-pointer">
+                        <img src="{{ asset('img/heart-black.png') }}" alt="Heart" class="w-6 h-6 mr-2">
+                        <span class="font-medium text-gray-900 dark:text-gray-100">
+                            Comentarios ({{ $image->comments_count ?? $image->comments->count() }})
+                        </span>
+                    </div>
+
+                    <!-- Comment Form -->
+                    @auth
+                    <form id="comment-form" action="{{ route('comments.store') }}" method="POST" class="hidden mb-4">
+                        @csrf
+                        <input type="hidden" name="image_id" value="{{ $image->id }}">
+                        <div class="flex mb-2">
+                            <textarea name="comment"
+                                      class="flex-1 border border-gray-300 dark:border-gray-600 rounded-l-lg p-2 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                      placeholder="Write a comment..."
+                                      rows="3"
+                                      required>{{ old('comment') }}</textarea>
+                            <button type="submit"
+                                    class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-r-lg font-medium transition duration-200">
+                                Send
+                            </button>
+                        </div>
+                        @error('comment')
+                            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                        @enderror
+                    </form>
+                    @endauth
+
+                    <!-- Comments List -->
+                    <div id="comments-list" class="hidden mt-4 space-y-3">
+                        @foreach ($image->comments as $comment)
+                            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-3">
+                                <div class="flex items-center mb-1">
+                                    <span class="font-medium text-gray-900 dark:text-gray-100">{{ $comment->user->name ?? 'Unknown User' }}</span>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400 ml-2">
+                                        @if(function_exists('format_time_diff'))
+                                            {{ format_time_diff($comment->created_at) }}
+                                        @else
+                                            {{ $comment->created_at->diffForHumans() }}
+                                        @endif
+                                    </span>
+                                </div>
+                                <p class="text-gray-700 dark:text-gray-300">{{ $comment->comment }}</p>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Toggle Script -->
+                    <script>
+                        document.getElementById('comments-toggle').addEventListener('click', function() {
+                            const commentForm = document.getElementById('comment-form');
+                            const commentsList = document.getElementById('comments-list');
+
+                            if (commentForm.classList.contains('hidden')) {
+                                commentForm.classList.remove('hidden');
+                                commentsList.classList.remove('hidden');
+                            } else {
+                                commentForm.classList.add('hidden');
+                                commentsList.classList.add('hidden');
+                            }
+                        });
+                    </script>
                 </div>
             </div>
 

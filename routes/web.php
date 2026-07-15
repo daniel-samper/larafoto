@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/imagenes', [App\Http\Controllers\ImageController::class, 'index'])->name('images.index');
     Route::get('/imagen/{image}', [App\Http\Controllers\ImageController::class, 'show'])->name('images.show');
     Route::post('/image/store', [App\Http\Controllers\ImageController::class, 'store'])->name('images.store');
+    Route::post('/comments/store', [\App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
 });
 
 
