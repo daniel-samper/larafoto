@@ -19,6 +19,11 @@ class Image extends Model
     {
         return $this->hasMany(Like::class);
     }
+
+    public function likedBy($userId)
+    {
+        return $this->likes()->where('user_id', $userId)->exists();
+    }
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

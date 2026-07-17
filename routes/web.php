@@ -24,6 +24,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/image/store', [App\Http\Controllers\ImageController::class, 'store'])->name('images.store');
     Route::post('/comments/store', [\App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
     Route::delete('/comments/{comment}', [\App\Http\Controllers\CommentController::class, 'delete'])->name('comments.delete');
+
+    // Likes routes
+    Route::post('/like/{image}', [App\Http\Controllers\LikeController::class, 'like'])->name('like');
+    Route::post('/dislike/{image}', [App\Http\Controllers\LikeController::class, 'dislike'])->name('dislike');
 });
 
 

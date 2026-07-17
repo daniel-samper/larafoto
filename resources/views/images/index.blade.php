@@ -39,11 +39,28 @@
                             </p>
                         </div>
 
-                        <!-- Comments Section -->
-                        <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                        <!-- Likes and Comments Section -->
+                        <div class="px-4 py-3 border-t border-gray-200 dark:border-gray-700 space-y-3">
+                            <!-- Like Button -->
+                            <form id="like-form-{{ $image->id }}" class="inline-block" action="{{ route('like', $image) }}" method="POST">
+                                @csrf
+                                <button type="button" class="like-btn flex items-center cursor-pointer hover:text-red-600 transition-colors" data-image-id="{{ $image->id }}">
+                                    @if(Auth::check() && $image->likedBy(Auth::id()))
+                                        <img src="{{ asset('img/heart-red.png') }}" alt="Liked" class="w-6 h-6 mr-2 like-icon-{{ $image->id }}">
+                                    @else
+                                        <img src="{{ asset('img/heart-black.png') }}" alt="Like" class="w-6 h-6 mr-2 like-icon-{{ $image->id }}">
+                                    @endif
+                                    <span class="font-medium text-gray-900 dark:text-gray-100 like-count-{{ $image->id }}">
+                                        {{ $image->likes_count ?? $image->likes->count() }}
+                                    </span>
+                                </button>
+                            </form>
+
                             <!-- Comment Button (Toggle) -->
-                            <div class="flex items-center mb-3 cursor-pointer comments-toggle" data-image-id="{{ $image->id }}">
-                                <img src="{{ asset('img/heart-black.png') }}" alt="Heart" class="w-6 h-6 mr-2 comments-icon-{{ $image->id }}">
+                            <div class="flex items-center cursor-pointer comments-toggle" data-image-id="{{ $image->id }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                                </svg>
                                 <span class="font-medium text-gray-900 dark:text-gray-100">
                                     Comentarios ({{ $image->comments_count ?? $image->comments->count() }})
                                 </span>
@@ -111,9 +128,68 @@
                             </div>
                         </div>
 
-                        <!-- Toggle Script for this image -->
+                        <!-- Like/Dislike Script for this image -->
                         <script>
                             document.addEventListener('DOMContentLoaded', function() {
+                                const likeBtn = document.querySelector('.like-btn[data-image-id="{{ $image->id }}"]');
+                                if (likeBtn) {
+                                    likeBtn.addEventListener('click', async function(e) {
+                                        e.preventDefault();
+                                        const imageId = {{ $image->id }};
+                                        const heartIcon = document.querySelector(`.like-icon-${imageId}`);
+                                        const likeCountSpan = document.querySelector(`.like-count-${imageId}`);
+
+                                        if (!heartIcon || !likeCountSpan) {
+                                            console.error('Elements not found');
+                                            return;
+                                        }
+
+                                        const isLiked = heartIcon.getAttribute('src').includes('heart-red');
+                                        const csrfToken = '{{ csrf_token() }}';
+
+                                        if (isLiked) {
+                                            // Unlike the image
+                                            try {
+                                                const formData = new FormData();
+                                                formData.append('_token', csrfToken);
+
+                                                const response = await fetch('/dislike/' + imageId, {
+                                                    method: 'POST',
+                                                    body: formData
+                                                });
+                                                const data = await response.json();
+
+                                                if (response.ok) {
+                                                    heartIcon.src = '{{ asset("img/heart-black.png") }}';
+                                                    likeCountSpan.textContent = data.likes_count;
+                                                }
+                                            } catch (error) {
+                                                console.error('Error disliking:', error);
+                                            }
+                                        } else {
+                                            // Like the image
+                                            try {
+                                                const formData = new FormData();
+                                                formData.append('_token', csrfToken);
+
+                                                const response = await fetch('/like/' + imageId, {
+                                                    method: 'POST',
+                                                    body: formData
+                                                });
+                                                const data = await response.json();
+
+                                                if (response.ok) {
+                                                    heartIcon.src = '{{ asset("img/heart-red.png") }}';
+                                                    likeCountSpan.textContent = data.likes_count;
+                                                }
+                                            } catch (error) {
+                                                console.error('Error liking:', error);
+                                            }
+                                        }
+                                    });
+                                }
+
+                                // Comments toggle
                                 const toggle = document.querySelector('.comments-toggle[data-image-id="{{ $image->id }}"]');
                                 if (toggle) {
                                     toggle.addEventListener('click', function() {
