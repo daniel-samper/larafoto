@@ -21,6 +21,9 @@
                     <x-nav-link href="{{ route('images.create') }}" :active="false">
                         {{ __('Subir imagen') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('likes.index') }}" :active="false">
+                        {{ __('Mis Likes') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -84,6 +87,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('images.create')" :active="false">
                     {{ __('Subir imagen') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('likes.index')" :active="false">
+                    {{ __('Mis Likes') }}
                 </x-responsive-nav-link>
         </div>
 

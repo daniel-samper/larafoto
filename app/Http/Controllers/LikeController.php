@@ -10,6 +10,17 @@ use Illuminate\Support\Facades\Auth;
 class LikeController extends Controller
 {
     /**
+     * Display all pictures liked by the logged user
+     */
+    public function index()
+    {
+        $likedImages = Image::whereHas('likes', function ($query) {
+            $query->where('user_id', Auth::id());
+        })->with(['likes', 'comments', 'user'])->paginate(12);
+
+        return view('likes.index', compact('likedImages'));
+    }
+    /**
      * Like a picture
      */
     public function like(Request $request, Image $image)

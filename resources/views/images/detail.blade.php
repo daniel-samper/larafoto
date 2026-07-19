@@ -21,7 +21,9 @@
                             </span>
                         </div>
                     @endif
-                    <span class="font-medium text-gray-900 dark:text-gray-100">{{ $image->user->name ?? 'Unknown User' }}</span>
+                     <span class="font-medium text-gray-900 dark:text-gray-100">
+                                {{ $image->user->name ?? 'Unknown User' }} | {{ '@' }}{{ $image->user->nick ?? 'unknown' }}
+                            </span>
                 </div>
 
                 <!-- Image -->
@@ -38,7 +40,7 @@
                 </div>
 
                 <!-- Likes and Comments Section -->
-                <div class="px-4 py-3 border-t border-gray-200 dark:border-gray-700 space-y-3">
+                <div class="px-4 py-3 border-t border-gray-200 dark:border-gray-700 flex items-center gap-4">
                     <!-- Like Button -->
                     <form id="like-form" class="inline-block" action="{{ route('like', $image) }}" method="POST">
                         @csrf
@@ -63,6 +65,7 @@
                             Comentarios ({{ $image->comments_count ?? $image->comments->count() }})
                         </span>
                     </div>
+                </div>
 
                     <!-- Comment Form -->
                     @auth

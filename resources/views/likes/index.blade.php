@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Uploaded Images') }}
+            {{ __('My Likes') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="space-y-6">
-                @foreach ($images as $image)
+                @foreach ($likedImages as $image)
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-xl max-w-md mx-auto">
                         <!-- User info above the image -->
                         <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center">
@@ -24,7 +24,7 @@
                                 </div>
                             @endif
                             <span class="font-medium text-gray-900 dark:text-gray-100">
-                                {{ $image->user->name ?? 'Unknown User' }} | {{ '@' }}{{ $image->user->nick ?? 'unknown' }}
+                                {{ $image->user->name ?? 'Unknown User' }} | {{ '@'.$image->user->nick ?? 'unknown' }}
                             </span>
                         </div>
 
@@ -67,7 +67,7 @@
                                     Comentarios ({{ $image->comments_count ?? $image->comments->count() }})
                                 </span>
                             </div>
-                        
+                        </div>
 
                             <!-- Comment Form -->
                             @auth
@@ -211,15 +211,15 @@
                 @endforeach
             </div>
 
-            @if($images->count() == 0)
+            @if($likedImages->count() == 0)
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-xl p-6 text-center max-w-md mx-auto">
-                    <p class="text-gray-900 dark:text-gray-100">No images uploaded yet.</p>
+                    <p class="text-gray-900 dark:text-gray-100">You haven't liked any images yet.</p>
                 </div>
             @endif
 
             <!-- Pagination links -->
             <div class="mt-6">
-                {{ $images->links() }}
+                {{ $likedImages->links() }}
             </div>
         </div>
     </div>
