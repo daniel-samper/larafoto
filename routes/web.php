@@ -21,7 +21,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/subir-imagen', [App\Http\Controllers\ImageController::class, 'create'])->name('images.create');
     Route::get('/imagenes', [App\Http\Controllers\ImageController::class, 'index'])->name('images.index');
     Route::get('/imagen/{image}', [App\Http\Controllers\ImageController::class, 'show'])->name('images.show');
+    Route::get('/image/edit/{image}', [App\Http\Controllers\ImageController::class, 'edit'])->name('images.edit');
+    Route::patch('/image/update/{image}', [App\Http\Controllers\ImageController::class, 'update'])->name('images.update');
     Route::post('/image/store', [App\Http\Controllers\ImageController::class, 'store'])->name('images.store');
+    Route::delete('/image/delete/{image}', [App\Http\Controllers\ImageController::class, 'delete'])->name('images.delete');
     Route::post('/comments/store', [\App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
     Route::delete('/comments/{comment}', [\App\Http\Controllers\CommentController::class, 'delete'])->name('comments.delete');
 
