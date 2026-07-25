@@ -54,4 +54,18 @@ class UserController extends Controller
 
         return response()->file($path);
     }
+
+    public function users()
+    {
+        $users = User::withCount('images')->latest()->paginate(12);
+        return view('user.index', compact('users'));
+    }
+
+    public function show(User $user)
+    {
+        $user->loadCount('images');
+        $user->load('images');
+
+        return view('user.show', compact('user'));
+    }
 }

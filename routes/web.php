@@ -18,6 +18,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/configuracion', [App\Http\Controllers\UserController::class, 'config'])->name('user.config');
     Route::patch('/user/update', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
     Route::get('/user/avatar/{filename}', [App\Http\Controllers\UserController::class, 'getImage'])->name('user.avatar');
+    Route::get('/users', [App\Http\Controllers\UserController::class, 'users'])->name('users.index');
+    Route::get('/users/{user}', [App\Http\Controllers\UserController::class, 'show'])->name('users.show');
     Route::get('/subir-imagen', [App\Http\Controllers\ImageController::class, 'create'])->name('images.create');
     Route::get('/imagenes', [App\Http\Controllers\ImageController::class, 'index'])->name('images.index');
     Route::get('/imagen/{image}', [App\Http\Controllers\ImageController::class, 'show'])->name('images.show');
